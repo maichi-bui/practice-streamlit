@@ -11,7 +11,7 @@ def load_data_hourly():
 
 st.title("🎈 My new app")
 st.write(
-    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
+    "Test with train data"
 )
 data = load_data_hourly()
 fig = go.Figure()
@@ -20,4 +20,4 @@ fig = px.line(data, x="time", y="ongoing_trips", color='date_snapshot',
               title="Scheduled Trips by Hour",
               labels={"time": "Time (Hourly)", "ongoing_trips": "Number of On-going Trips"},
               template="plotly_dark")
-fig.show()
+st.plotly_chart(fig)
