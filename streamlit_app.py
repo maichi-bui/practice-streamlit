@@ -7,12 +7,16 @@ def load_data_hourly():
     data = pd.read_csv("plot_all.csv")
     data['time'] = pd.to_datetime(data['time'])
     
+    recent_data = pd.read_csv("plot_df.csv")
+    recent_data['time'] = pd.to_datetime(recent_data['time'])
+    data = pd.concat([data, recent_data]).drop_duplicates()
+    data.to_csv("plot_all.csv")
     return data
 
-st.title("🎈 My new app")
-st.write(
-    "Test with train data"
-)
+st.title("🚂 SNCB train data")
+# st.write(
+#     "Test with train data"
+# )
 data = load_data_hourly()
 fig = go.Figure()
 fig = px.line(data, x="time", y="ongoing_trips", color='date_snapshot',
