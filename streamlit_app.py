@@ -4,6 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
 
+pastel_colors = ["#A1C4FD", "#FFC3A0", "#FF9A8B", "#D4A5A5", "#C1E1C1", "#F7CAC9", "#B5EAD7"]
 def load_data_hourly():
     data = pd.read_csv("plot_all.csv")
     data['time'] = pd.to_datetime(data['time'])
@@ -30,5 +31,6 @@ fig = px.line(data, x="time", y="ongoing_trips", color='date_snapshot',
               markers=True, 
               title="Scheduled Trips by Hour",
               labels={"time": "Time (Hourly)", "ongoing_trips": "Number of On-going Trips"},
-              template="plotly_dark")
-st.plotly_chart(fig)
+              color_discrete_sequence=pastel_colors)
+
+st.plotly_chart(fig, use_container_width=False, template=None)
