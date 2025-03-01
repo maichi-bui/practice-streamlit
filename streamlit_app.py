@@ -5,7 +5,8 @@ import plotly.graph_objects as go
 from datetime import datetime, timedelta
 
 pastel_colors = ["#A1C4FD", "#FFC3A0", "#FF9A8B", "#D4A5A5", "#C1E1C1", "#F7CAC9", "#B5EAD7"]
-def load_data_hourly():
+
+def update_new_data():
     data = pd.read_csv("plot_all.csv")
     data['time'] = pd.to_datetime(data['time'])
     
@@ -15,6 +16,11 @@ def load_data_hourly():
     
     data = pd.concat([data, recent_data]).drop_duplicates()
     data.to_csv("plot_all.csv", index=False)
+
+def load_data_one_week():
+    
+    data = pd.read_csv('plot_all.csv')
+    data['time'] = pd.to_datetime(data['time'])
     data['date_snapshot'] = data['date_snapshot'].apply(lambda x: datetime.strptime(str(x), "%Y%m%d").date())
     
     min_date = (datetime.now()- timedelta(7)).date()
@@ -25,7 +31,7 @@ st.title("🚂 SNCB train data")
 # st.write(
 #     "Test with train data"
 # )
-data = load_data_hourly()
+data = load_data_one_week()
 fig = go.Figure()
 fig = px.line(data, x="time", y="ongoing_trips", color='date_snapshot',
               markers=True, 
