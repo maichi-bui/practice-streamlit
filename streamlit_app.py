@@ -4,7 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
 
-pastel_colors = ["#A1C4FD", "#FFC3A0", "#FF9A8B", "#D4A5A5", "#C1E1C1", "#F7CAC9", "#B5EAD7"]
+# pastel_colors = ["#A1C4FD", "#FFC3A0", "#FF9A8B", "#D4A5A5", "#C1E1C1", "#F7CAC9", "#B5EAD7"]
 
 def update_new_data():
     data = pd.read_csv("plot_all.csv")
@@ -37,6 +37,7 @@ fig = px.line(data, x="time", y="ongoing_trips", color='date_snapshot',
               markers=True, 
               title="Scheduled Trips by Hour",
               labels={"time": "Time (Hourly)", "ongoing_trips": "Number of On-going Trips"},
-              color_discrete_sequence=pastel_colors)
+              template = 'seaborn')
+            #   color_discrete_sequence=pastel_colors)
 
 st.plotly_chart(fig, use_container_width=False, template=None)
