@@ -35,7 +35,7 @@ def load_webcam_location():
 with st.sidebar:
     st.write("### Selection for Graph")
     st.write("Select which graph you want like to see")
-    selected_graph = st.multiselect("Select graph to display:", options=['🚂 SNCB train data','Webcam location'], default=['Webcam location'])
+    selected_graph = st.selectbox("Select graph to display:", ('🚂 SNCB train data','🗻 Webcam location'))
 
 # st.write(
 #     "Test with train data"
@@ -57,7 +57,7 @@ fig2 = px.density_map(geo_data, lat='latitude', lon='longitude', z='viewCount', 
 # fig.show()
 if 'train' in selected_graph:
     st.title("🚂 SNCB train data")
-    st.plotly_chart(fig, use_container_width=False, template=None)
+    st.plotly_chart(fig, use_container_width=False)
 else:
-    st.title("Webcam map")
+    st.title("🗻 Webcam map")
     st.plotly_chart(fig2, use_container_width=False)
