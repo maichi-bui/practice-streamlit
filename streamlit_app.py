@@ -26,8 +26,17 @@ def load_data_one_week():
     min_date = (datetime.now()- timedelta(7)).date()
     plot_data = data[data.date_snapshot >= min_date]
     return plot_data
+def load_webcam_location():
 
-st.title("🚂 SNCB train data")
+    geo_data = pd.read_csv('webcam_location_info.csv')[['city','latitude','longitude','viewCount']]
+    return geo_data
+# st.title("🚂 SNCB train data")
+# Sidebar for inputs
+with st.sidebar:
+    st.write("### Selection for Graph")
+    st.write("Select which graph you want like to see")
+    selected_graph = st.multiselect("Select graph to display:", options=['🚂 SNCB train data','Webcam location'], default=['Webcam location'])
+
 # st.write(
 #     "Test with train data"
 # )
@@ -40,4 +49,15 @@ fig = px.line(data, x="time", y="ongoing_trips", color='date_snapshot',
               template = 'seaborn')
             #   color_discrete_sequence=pastel_colors)
 
-st.plotly_chart(fig, use_container_width=False, template=None)
+geo_data = load_webcam_location()
+fig2 = go.Figure()
+fig2 = px.density_map(geo_data, lat='latitude', lon='longitude', z='viewCount', radius=10,
+                        center=dict(lat=50, lon=4),zoom=5,color_continuous_scale="Viridis",
+                        map_style="streets")
+# fig.show()
+if 'train' in selected_graph:
+    st.title("🚂 SNCB train data")
+    st.plotly_chart(fig, use_container_width=False, template=None)
+else:
+    st.title("Webcam map")
+    st.plotly_chart(fig2, use_container_width=False)
