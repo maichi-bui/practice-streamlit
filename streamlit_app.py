@@ -15,8 +15,10 @@ def load_data_one_week():
     return plot_data
 def load_webcam_location():
 
-    geo_data = pd.read_csv('webcam_location_info.csv')[['city','latitude','longitude','viewCount']]
-    return geo_data
+    geo_data = pd.read_csv('webcam_info_06042025.csv')
+    sample_df = geo_data.head(51)[geo_data.head(51).evaluate=='ok'][['city','latitude','longitude','num_imgs']]
+    
+    return sample_df
 
 def load_delay_data():
     data = pd.read_csv('mean_delay.csv', parse_dates=['snap_time'])
@@ -50,8 +52,8 @@ fig_delay.update_layout(title="Arrival and Departure Delay by Quarter-Hour in re
 
 geo_data = load_webcam_location()
 fig2 = go.Figure()
-fig2 = px.density_map(geo_data, lat='latitude', lon='longitude', z='viewCount', radius=10,
-                        center=dict(lat=50, lon=4),zoom=5,color_continuous_scale="Viridis",
+fig2 = px.density_map(geo_data, lat='latitude', lon='longitude', z='num_imgs', radius=10,
+                        center=dict(lat=50, lon=4),zoom=5,color_continuous_scale="rainbow",
                         map_style="streets")
 
 if 'train' in selected_graph:
@@ -59,5 +61,5 @@ if 'train' in selected_graph:
     st.plotly_chart(fig, use_container_width=False)
     st.plotly_chart(fig_delay, use_container_width=False)
 else:
-    st.title("🗻 Webcam map")
+    st.title("🗻 Webcam map - Top 40 webcams")
     st.plotly_chart(fig2, use_container_width=False)
